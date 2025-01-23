@@ -16,5 +16,9 @@
     },
     "env": {
         "vitest-globals/env": true
-      }
+      },
+      "prettier/prettier": [
+        "disabled"
+        
+      ]
 }
