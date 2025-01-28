@@ -3,17 +3,17 @@ import { Question } from '../../enterprise/entities/question';
 import { QuestionsRepository } from '../repositories/question-repository';
 
 interface CreateQuestionUseCaseRequest {
-  authorId: string
-  title: string
-  content: string
+  authorId: string;
+  title: string;
+  content: string;
 }
 
 interface CreateQuestionUseCaseResponse {
-  question: Question
+  question: Question;
 }
 
 export class CreateQuestionUseCase {
-  constructor(private questionRepository: QuestionsRepository) { }
+  constructor(private questionRepository: QuestionsRepository) {}
   async execute({
     authorId,
     title,
@@ -23,12 +23,12 @@ export class CreateQuestionUseCase {
       authorId: new UniqueEntityID(authorId),
       title,
       content,
-    })
+    });
 
-    await this.questionRepository.create(question)
+    await this.questionRepository.create(question);
 
     return {
       question,
-    }
+    };
   }
 }
