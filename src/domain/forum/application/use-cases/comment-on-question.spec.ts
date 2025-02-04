@@ -1,35 +1,36 @@
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository';
-import { makeAnswer } from 'test/factories/make-answer';
-import { CommentOnAnswerUseCase } from './comment-on-answer';
-import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository';
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository';
+import { makeQuestion } from 'test/factories/make-question';
+import { CommentOnQuestionUseCase } from './comment-on-question';
+import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository';
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository;
-let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
-let sut: CommentOnAnswerUseCase;
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
+let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository;
+let sut: CommentOnQuestionUseCase;
 // system under test
 
-describe('Comment on Answer', () => {
+describe('Comment on Question', () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository();
-    inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository();
-    sut = new CommentOnAnswerUseCase(
-      inMemoryAnswersRepository,
-      inMemoryAnswerCommentsRepository
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+    inMemoryQuestionCommentsRepository =
+      new InMemoryQuestionCommentsRepository();
+    sut = new CommentOnQuestionUseCase(
+      inMemoryQuestionsRepository,
+      inMemoryQuestionCommentsRepository
     );
   });
 
-  it('should be able to comment on answer', async () => {
-    const answer = makeAnswer();
+  it('should be able to comment on question', async () => {
+    const question = makeQuestion();
 
-    await inMemoryAnswersRepository.create(answer);
+    await inMemoryQuestionsRepository.create(question);
 
     await sut.execute({
-      answerId: answer.id.toString(),
-      authorId: answer.authorId.toString(),
+      questionId: question.id.toString(),
+      authorId: question.authorId.toString(),
       content: 'Comentário teste',
     });
 
-    expect(inMemoryAnswerCommentsRepository.items[0].content).toEqual(
+    expect(inMemoryQuestionCommentsRepository.items[0].content).toEqual(
       'Comentário teste'
     );
   });
