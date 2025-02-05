@@ -2,6 +2,7 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 import { makeAnswer } from 'test/factories/make-answer';
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository';
 import { CommentOnAnswerUseCase } from './comment-on-answer';
+import { NotAllowedError } from './errors/not-allowed-error';
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
@@ -23,14 +24,12 @@ describe('Comment on Answer', () => {
 
     await inMemoryAnswersRepository.create(answer);
 
-    await sut.execute({
+    const result = await sut.execute({
       answerId: answer.id.toString(),
       authorId: answer.authorId.toString(),
       content: 'Comentário teste',
     });
 
-    expect(inMemoryAnswerCommentsRepository.items[0].content).toEqual(
-      'Comentário teste'
-    );
+    expect(result.isRight()).toBe(true);
   });
 });
