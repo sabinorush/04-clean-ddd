@@ -5,7 +5,7 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error';
 import { NotAllowedError } from './errors/not-allowed-error';
 import { QuestionAttachmentsRepository } from '../repositories/question-attachments-repository';
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list';
-import { QuestionAttachment } from '../../enterprise/question-attachment';
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface EditQuestionUseCaseRequest {
@@ -67,9 +67,9 @@ export class EditQuestionUseCase {
     // Update list attachment
     questionAttachmentList.update(questionAttachments);
 
+    question.attachments = questionAttachmentList;
     question.title = title;
     question.content = content;
-    question.attachments = questionAttachmentList;
 
     await this.questionRepository.save(question);
 
